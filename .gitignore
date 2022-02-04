@@ -1,0 +1,7 @@
+# build output
+dist
+node_modules
+local_tests
+examples/node_modules
+package-lock.json
+.vscode
