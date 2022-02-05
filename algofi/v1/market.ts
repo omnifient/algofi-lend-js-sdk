@@ -1,6 +1,6 @@
 import { Algodv2, Indexer, getApplicationAddress } from "algosdk"
 import { getGlobalState, readLocalState, searchGlobalState, get } from "../utils"
-import { PARAMETER_SCALE_FACTOR, SCALE_FACTOR } from "../v0"
+import { PARAMETER_SCALE_FACTOR, SCALE_FACTOR } from "./config"
 import { marketStrings } from "../contractStrings"
 import { Asset } from "./asset"
 
