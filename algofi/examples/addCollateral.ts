@@ -3,7 +3,7 @@ import { printMarketState, printUserState } from "./exampleUtils"
 import { mnemonicToSecretKey } from "algosdk"
 
 export async function addCollateralExample(
-  mnemonic: string = "biology engine verify maze coral cotton swear laptop surge vital surround entire glance dial oblige bleak friend royal round region divorce elephant law above local"
+  mnemonic: string = ""
 ) {
   const user = mnemonicToSecretKey(mnemonic)
   const sender = user.addr

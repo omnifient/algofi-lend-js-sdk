@@ -4,7 +4,7 @@ import { mnemonicToSecretKey } from "algosdk"
 
 
 export async function liquidateExample(
-  mnemonic: string = "still exist rifle milk magic fog raw senior grunt claw female talent giggle fatigue truly guard region wife razor put delay arrow napkin ability demise"
+  mnemonic: string = ""
 ) {
   let user = mnemonicToSecretKey(mnemonic)
   let sender = user.addr

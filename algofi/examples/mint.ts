@@ -3,7 +3,7 @@ import { newAlgofiMainnetClient, newAlgofiTestnetClient } from "../v1/client"
 import { printMarketState, printUserState } from "./exampleUtils"
 
 export async function mintExample(
-  mnemonic: string = "biology engine verify maze coral cotton swear laptop surge vital surround entire glance dial oblige bleak friend royal round region divorce elephant law above local"
+  mnemonic: string = ""
 ) {
   const user = mnemonicToSecretKey(mnemonic)
   const sender = user.addr
