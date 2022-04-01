@@ -121,13 +121,11 @@ export class Client {
     const client = new Client(algodClient, indexerClient, historicalIndexerClient, userAddress, chain)
     client.markets = {}
     for (const symbol of client.activeOrderedSymbols) {
-      console.log("fetching market data for symbol=", symbol)
       client.markets[symbol] = await Market.init(
         algodClient,
         historicalIndexerClient,
         getMarketAppId(client.chain, symbol)
       )
-      console.log("client.markets=", client.markets)
     }
     client.stakingContracts = {}
     if (fetchStaking) {
