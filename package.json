@@ -1,12 +1,12 @@
 {
   "name": "@algofi/lend",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "The official JavaScript SDK for the Algofi Lending Protocol",
   "main": "dist/index.js",
   "files": [
     "dist/"
   ],
-  "module": "dist/algofi.js",
+  "module": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/Algofiorg/algofi-js-sdk.git"
