@@ -121,7 +121,7 @@ export class Market {
     this.bankCirculation = get(marketState, marketStrings.bank_circulation, 0)
     this.bankToUnderlyingExchange = get(marketState, marketStrings.bank_to_underlying_exchange, 0)
     this.underlyingBorrowed = get(marketState, marketStrings.underlying_borrowed, 0)
-    this.outstandingBorrowShares = get(marketState, marketStrings.outstanding_borrow_shares, 0)
+    this.outstandingBorrowShares = get(marketState, marketStrings.outstanding_borrowShares, 0)
     this.underlyingCash = get(marketState, marketStrings.underlying_cash, 0)
     this.underlyingReserves = get(marketState, marketStrings.underlying_reserves, 0)
     this.borrowUtil =
@@ -320,21 +320,18 @@ export class Market {
     const userState = await readLocalState(this.algod, storageAddress, this.marketAppId)
     const asset = this.getAsset()
 
-    result.active_collateral_bank = get(userState, marketStrings.user_active_collateral, 0)
-    result.active_collateral_underlying = Math.floor(
-      (result.active_collateral_bank * this.bankToUnderlyingExchange) / SCALE_FACTOR
+    result.activeCollateralBank = get(userState, marketStrings.user_active_collateral, 0)
+    result.activeCollateralUnderlying = Math.floor(
+      (result.activeCollateralBank * this.bankToUnderlyingExchange) / SCALE_FACTOR
     )
 
-    result.active_collateral_usd = await asset.toUSD(result.active_collateral_underlying)
+    result.activeCollateralUsd = await asset.toUSD(result.activeCollateralUnderlying)
 
-    result.active_collateral_max_borrow_usd =
-      (result.active_collateral_usd * this.collateralFactor) / PARAMETER_SCALE_FACTOR
-    result.borrow_shares = get(userState, marketStrings.user_borrow_shares, 0)
-    result.borrow_underlying = Math.floor(
-      (this.underlyingBorrowed * result.borrow_shares) / this.outstandingBorrowShares
-    )
+    result.activeCollateralMaxBorrowUsd = (result.activeCollateralUsd * this.collateralFactor) / PARAMETER_SCALE_FACTOR
+    result.borrowShares = get(userState, marketStrings.user_borrowShares, 0)
+    result.borrowUnderlying = Math.floor((this.underlyingBorrowed * result.borrowShares) / this.outstandingBorrowShares)
 
-    result.borrow_usd = await asset.toUSD(result.borrow_underlying)
+    result.borrowUsd = await asset.toUSD(result.borrowUnderlying)
 
     return result
   }

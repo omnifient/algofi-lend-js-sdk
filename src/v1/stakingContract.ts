@@ -206,8 +206,8 @@ export class StakingContract {
     result.secondary_unrealized_rewards = secondaryUnrealizedRewards
 
     const userMarketState = await this.getMarket().getStorageState(storageAddress)
-    result.staked_bank = userMarketState.active_collateral_bank
-    result.stake_underlying = userMarketState.active_collateral_underlying
+    result.staked_bank = userMarketState.activeCollateralBank
+    result.stake_underlying = userMarketState.activeCollateralUnderlying
 
     return result
   }
