@@ -1,5 +1,6 @@
 import { Algodv2 } from "algosdk"
 import { getGlobalState } from "../utils"
+import { assetDictionary } from "./config"
 
 export class Asset {
   algod: Algodv2
@@ -97,9 +98,13 @@ export class Asset {
       oraclePriceField,
       oraclePriceScaleFactor
     )
-    asset.underlyingAssetInfo =
-      underlyingAssetId !== 1 ? (await asset.algod.getAssetByID(underlyingAssetId).do()).params : { "decimals": 6 }
-    asset.bankAssetInfo = (await asset.algod.getAssetByID(bankAssetId).do()).params
+    for (const assetName of Object.keys(assetDictionary)) {
+      if (assetDictionary[assetName].underlyingAssetId === underlyingAssetId) {
+        asset.underlyingAssetInfo = assetDictionary[assetName]
+      }
+    }
+    /*underlyingAssetId !== 1 ? (await asset.algod.getAssetByID(underlyingAssetId).do()).params : { decimals: 6 }
+    asset.bankAssetInfo = (await asset.algod.getAssetByID(bankAssetId).do()).params */
     return asset
   }
 
