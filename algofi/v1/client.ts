@@ -115,24 +115,29 @@ export class Client {
     indexerClient: Indexer,
     historicalIndexerClient: Indexer,
     userAddress: string,
-    chain: string
+    chain: string,
+    fetchStaking: boolean = false
   ): Promise<Client> {
     const client = new Client(algodClient, indexerClient, historicalIndexerClient, userAddress, chain)
     client.markets = {}
-    for (const symbol of client.maxOrderedSymbols) {
+    for (const symbol of client.activeOrderedSymbols) {
+      console.log("fetching market data for symbol=", symbol)
       client.markets[symbol] = await Market.init(
         algodClient,
         historicalIndexerClient,
         getMarketAppId(client.chain, symbol)
       )
+      console.log("client.markets=", client.markets)
     }
     client.stakingContracts = {}
-    for (const title of Object.keys(client.stakingContractInfo)) {
-      client.stakingContracts[title] = await StakingContract.init(
-        client.algod,
-        client.historicalIndexer,
-        client.stakingContractInfo[title]
-      )
+    if (fetchStaking) {
+      for (const title of Object.keys(client.stakingContractInfo)) {
+        client.stakingContracts[title] = await StakingContract.init(
+          client.algod,
+          client.historicalIndexer,
+          client.stakingContractInfo[title]
+        )
+      }
     }
     client.manager = await Manager.init(client.algod, getManagerAppId(client.chain))
     return client
@@ -970,7 +975,7 @@ export class Client {
 
   /**
    * Submits and waits for a transaction group to finish if specified
-   * 
+   *
    * @param transactionGroup - signed transaction group
    * @param wait - boolean to tell whether you want to wait or not
    * @returns a dictionary with the txid of the group transaction
@@ -985,7 +990,7 @@ export class Client {
     if (wait) {
       return waitForConfirmation(this.algod, txid, 10)
     }
-    return { "txid": txid }
+    return { txid: txid }
   }
 }
 
@@ -1029,14 +1034,13 @@ export async function newAlgofiMainnetClient(
   userAddress: string = null
 ): Promise<Client> {
   const historicalIndexerClient = new Indexer("", "https://indexer.algoexplorerapi.io/", "")
-  let newAlgodClient: Algodv2
   let newIndexerClient: Indexer
   if (algodClient === null) {
-    newAlgodClient = new Algodv2("", "https://algoexplorerapi.io", "")
+    algodClient = new Algodv2("", "https://algoexplorerapi.io", "")
   }
   if (indexerClient === null) {
     newIndexerClient = new Indexer("", "https://algoindexer.algoexplorerapi.io", "")
   }
-  const client = await Client.init(newAlgodClient, newIndexerClient, historicalIndexerClient, userAddress, "mainnet")
+  const client = await Client.init(algodClient, newIndexerClient, historicalIndexerClient, userAddress, "mainnet")
   return client
 }

@@ -30,7 +30,10 @@ export class Market {
   outstandingBorrowShares: number
   underlyingCash: number
   underlyingReserves: number
+  borrowUtil: number
   totalBorrowInterestRate: number
+  totalSupplyInterestRate: number
+  assetPrice: number
   asset: Asset
   historicalIndexer: Indexer
 
@@ -82,16 +85,21 @@ export class Market {
    * @param marketAppId - application id of the market we are interested in
    * @returns a new instance of the market class fully constructed
    */
-  static async init(algodClient: Algodv2, historicalIndexerClient: Indexer, marketAppId: number): Promise<Market> {
+  static async init(
+    algodClient: Algodv2,
+    historicalIndexerClient: Indexer,
+    marketAppId: number,
+    initAsset: boolean = true
+  ): Promise<Market> {
     const market = new Market(algodClient, historicalIndexerClient, marketAppId)
-    await market.updateGlobalState()
+    await market.updateGlobalState(initAsset)
     return market
   }
 
   /**
    * Method to fetch most recent market global state
    */
-  async updateGlobalState(): Promise<void> {
+  async updateGlobalState(initAsset: boolean): Promise<void> {
     const marketState = await getGlobalState(this.algod, this.marketAppId)
 
     this.marketCounter = marketState[marketStrings.manager_market_counter_var]
@@ -116,18 +124,24 @@ export class Market {
     this.outstandingBorrowShares = get(marketState, marketStrings.outstanding_borrow_shares, 0)
     this.underlyingCash = get(marketState, marketStrings.underlying_cash, 0)
     this.underlyingReserves = get(marketState, marketStrings.underlying_reserves, 0)
+    this.borrowUtil =
+      this.underlyingBorrowed / (this.underlyingBorrowed + this.underlyingCash + this.underlyingReserves)
     this.totalBorrowInterestRate = get(marketState, marketStrings.total_borrow_interest_rate, 0)
+    this.totalSupplyInterestRate = this.totalBorrowInterestRate * this.borrowUtil
 
-    this.asset = this.underlyingAssetId
-      ? await Asset.init(
-          this.algod,
-          this.underlyingAssetId,
-          this.bankAssetId,
-          this.oracleAppId,
-          this.oraclePriceField,
-          this.oraclePriceScaleFactor
-        )
-      : null
+    if (initAsset) {
+      this.asset = this.underlyingAssetId
+        ? await Asset.init(
+            this.algod,
+            this.underlyingAssetId,
+            this.bankAssetId,
+            this.oracleAppId,
+            this.oraclePriceField,
+            this.oraclePriceScaleFactor
+          )
+        : null
+      this.assetPrice = await this.asset.getPrice()
+    }
   }
 
   /**

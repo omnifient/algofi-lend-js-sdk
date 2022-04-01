@@ -6,7 +6,7 @@ export const contracts = {
       "goBTC",
       "goETH",
       "STBL",
-      "SIIX",
+      "vALGO",
       "SEVN",
       "EGHT",
       "NINE",
@@ -49,9 +49,12 @@ export const contracts = {
         bankAssetId: 51422940,
         underlyingAssetId: 51437956
       },
-      SIIX: {
+      vALGO: {
         marketCounter: 6,
-        marketAppId: 51422152
+        marketAppId: 465814318,
+        bankAssetId: 680408335,
+        bankAssetDecimals: 6,
+        underlyingAssetId: 1
       },
       SEVN: {
         marketCounter: 7,
@@ -95,7 +98,7 @@ export const contracts = {
       }
     },
     managerAppId: 51422788,
-    supportedMarketCount: 5,
+    supportedMarketCount: 6,
     maxAtomicOptInMarketCount: 13,
     maxMarketCount: 16,
     initRound: 18484796,
@@ -115,7 +118,7 @@ export const contracts = {
       "goBTC",
       "goETH",
       "STBL",
-      "SIIX",
+      "vALGO",
       "SEVN",
       "EGHT",
       "NINE",
@@ -158,9 +161,11 @@ export const contracts = {
         bankAssetId: 465818563,
         underlyingAssetId: 465865291
       },
-      SIIX: {
+      vALGO: {
         marketCounter: 6,
-        marketAppId: 465814318
+        marketAppId: 465814318,
+        bankAssetId: 680408335,
+        underlyingAssetId: 1
       },
       SEVN: {
         marketCounter: 7,
@@ -203,7 +208,7 @@ export const contracts = {
         marketAppId: 465814807
       }
     },
-    supportedMarketCount: 5,
+    supportedMarketCount: 6,
     maxMarketCount: 16,
     maxAtomicOptInMarketCount: 13,
     managerAppId: 465818260,

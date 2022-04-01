@@ -1,4 +1,4 @@
-export const orderedAssets = ["ALGO", "USDC", "goBTC", "goETH", "STBL"]
+export const orderedAssets = ["ALGO", "USDC", "goBTC", "goETH", "STBL", "vALGO"]
 export const extraAssets = ["BANK"]
 export const orderedAssetsAndPlaceholders = [
   "ALGO",
@@ -6,7 +6,7 @@ export const orderedAssetsAndPlaceholders = [
   "goBTC",
   "goETH",
   "STBL",
-  "SIIX",
+  "vALGO",
   "SEVN",
   "EGHT",
   "NINE",
@@ -85,6 +85,18 @@ export const assetDictionary = {
     underlyingAssetId: 465865291,
     oracleAppId: 451327550,
     oracleFieldName: "price"
+  },
+  vALGO: {
+    decimals: 6,
+    marketCounter: 6,
+    marketAppId: 465814318,
+    marketAddress: "DAUL5I34T4C4U5OMXS7YBPJIERQ2NH3O7XPZCIJEGKP4NO3LK4UWDCHAG4",
+    managerAppId: 465818260,
+    bankAssetId: 680408335,
+    bankAssetDecimals: 6,
+    underlyingAssetId: 1,
+    oracleAppId: 531724540,
+    oracleFieldName: "latest_twap_price"
   },
   "STBL-STAKE": {
     decimals: 6,

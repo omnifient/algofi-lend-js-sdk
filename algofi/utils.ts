@@ -9,7 +9,6 @@ import {
   assignGroupID
 } from "algosdk"
 import { contracts } from "./v1/contracts"
-
 export enum Transactions {
   MINT = 1,
   MINT_TO_COLLATERAL = 2,
@@ -95,7 +94,7 @@ export class TransactionGroup {
    * @param wait - wait for txn to complete; defaults to false
    * @returns
    */
-  async submit(algod: Algodv2, wait: boolean = false): Promise<{ [key:string]: number }> {
+  async submit(algod: Algodv2, wait: boolean = false): Promise<{ [key: string]: number }> {
     let txid: any
     try {
       txid = await algod.sendRawTransaction(this.signedTransactions).do()
@@ -106,7 +105,7 @@ export class TransactionGroup {
       await waitForConfirmation(algod, txid.txId)
     }
     return {
-      "txid": txid.txId
+      txid: txid.txId
     }
   }
 }
@@ -150,7 +149,7 @@ export function intToBytes(num: number): Uint8Array {
  * @param state - state we are trying to format
  * @returns a formatted version of state after taking care of decoding and unecessary key values
  */
-export function formatState(state: { [key: string]: any }[]): { [key:string]: any } {
+export function formatState(state: { [key: string]: any }[]): { [key: string]: any } {
   const formatted = {}
   for (const item of state) {
     const { key } = item
