@@ -25,7 +25,7 @@ export const marketStrings = {
   market_supply_cap_in_dollars: "msc",
   market_borrow_cap_in_dollars: "mbc",
   min_scheduled_param_update_delay: "mpud",
-  outstanding_borrowShares: "ob",
+  outstanding_borrow_shares: "ob",
   oracle_app_id: "o",
   oracle_price_field: "op",
   oracle_price_scale_factor: "ops",
@@ -65,7 +65,7 @@ export const marketStrings = {
   update_market_params: "ump",
   // user variables
   user_active_collateral: "uac",
-  user_borrowShares: "ubs"
+  user_borrow_shares: "ubs"
 }
 export const managerStrings = {
   add_collateral: "ac",

@@ -121,7 +121,7 @@ export class Market {
     this.bankCirculation = get(marketState, marketStrings.bank_circulation, 0)
     this.bankToUnderlyingExchange = get(marketState, marketStrings.bank_to_underlying_exchange, 0)
     this.underlyingBorrowed = get(marketState, marketStrings.underlying_borrowed, 0)
-    this.outstandingBorrowShares = get(marketState, marketStrings.outstanding_borrowShares, 0)
+    this.outstandingBorrowShares = get(marketState, marketStrings.outstanding_borrow_shares, 0)
     this.underlyingCash = get(marketState, marketStrings.underlying_cash, 0)
     this.underlyingReserves = get(marketState, marketStrings.underlying_reserves, 0)
     this.borrowUtil =
@@ -328,7 +328,7 @@ export class Market {
     result.activeCollateralUsd = await asset.toUSD(result.activeCollateralUnderlying)
 
     result.activeCollateralMaxBorrowUsd = (result.activeCollateralUsd * this.collateralFactor) / PARAMETER_SCALE_FACTOR
-    result.borrowShares = get(userState, marketStrings.user_borrowShares, 0)
+    result.borrowShares = get(userState, marketStrings.user_borrow_shares, 0)
     result.borrowUnderlying = Math.floor((this.underlyingBorrowed * result.borrowShares) / this.outstandingBorrowShares)
 
     result.borrowUsd = await asset.toUSD(result.borrowUnderlying)
