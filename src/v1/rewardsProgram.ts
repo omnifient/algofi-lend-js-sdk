@@ -135,7 +135,7 @@ export class RewardsProgram {
     }
 
     const date = new Date()
-    const timeElapsed = Math.floor((date.getTime() / 1000) - this.getLatestRewardsTime())
+    const timeElapsed = Math.floor(date.getTime() / 1000 - this.getLatestRewardsTime())
     const rewardsIssued = this.getRewardsAmount() > 0 ? timeElapsed * this.getRewardsPerSecond() : 0
 
     for (const market of markets) {
@@ -148,20 +148,29 @@ export class RewardsProgram {
         : 0
 
       const marketUnderlyingTvl =
-        (await market.getUnderlyingBorrowed()) + (market.getActiveCollateral() * market.getBankToUnderlyingExchange()) / SCALE_FACTOR
+        (await market.getUnderlyingBorrowed()) +
+        (market.getActiveCollateral() * market.getBankToUnderlyingExchange()) / SCALE_FACTOR
 
-     
-      const projectedCoefficient = coefficient + Math.floor(rewardsIssued * REWARDS_SCALE_FACTOR * (await market.getAsset().toUSD(await market.getUnderlyingBorrowed())) / (totalBorrowUsd * marketUnderlyingTvl))
+      const projectedCoefficient =
+        coefficient +
+        Math.floor(
+          (rewardsIssued *
+            REWARDS_SCALE_FACTOR *
+            (await market.getAsset().toUSD(await market.getUnderlyingBorrowed()))) /
+            (totalBorrowUsd * marketUnderlyingTvl)
+        )
 
       const marketStorageState = await market.getStorageState(storageAddress)
 
       const unrealizedRewards = Math.floor(
-      (projectedCoefficient - userCoefficient) * 
-      (marketStorageState.active_collateral_underlying + marketStorageState.borrow_underlying) / 
-      REWARDS_SCALE_FACTOR 
+        ((projectedCoefficient - userCoefficient) *
+          (marketStorageState.activeCollateralUnderlying + marketStorageState.borrowUnderlying)) /
+          REWARDS_SCALE_FACTOR
       )
 
-      const secondaryUnrealizedRewards = Math.floor((unrealizedRewards * this.getRewardsSecondaryRatio()) / PARAMETER_SCALE_FACTOR)
+      const secondaryUnrealizedRewards = Math.floor(
+        (unrealizedRewards * this.getRewardsSecondaryRatio()) / PARAMETER_SCALE_FACTOR
+      )
 
       totalUnrealizedRewards += unrealizedRewards
       totalSecondaryUnrealizedRewards += secondaryUnrealizedRewards

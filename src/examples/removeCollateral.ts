@@ -2,9 +2,7 @@ import { newAlgofiMainnetClient, newAlgofiTestnetClient } from "../v1/client"
 import { printMarketState, printUserState } from "./exampleUtils"
 import { mnemonicToSecretKey } from "algosdk"
 
-export async function removeCollateralExample(
-  mnemonic: string = ""
-) {
+export async function removeCollateralExample(mnemonic: string = "") {
   let user = mnemonicToSecretKey(mnemonic)
   let sender = user.addr
   let key = user.sk
@@ -45,7 +43,7 @@ export async function removeCollateralExample(
   txn.signWithPrivateKey(undefined, key)
   await txn.submit(client.algod, true)
 
-  let userActiveCollateral = (await client.getUserState(sender))[symbol]["active_collateral_bank"]
+  let userActiveCollateral = (await client.getUserState(sender))[symbol]["activeCollateralBank"]
 
   txn = await client.prepareRemoveCollateralTransactions(symbol, Math.floor(userActiveCollateral * 0.1), sender)
   txn.signWithPrivateKey(undefined, key)
