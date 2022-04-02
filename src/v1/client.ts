@@ -256,13 +256,14 @@ export class Client {
     if (!addr) {
       addr = this.userAddress
     }
-
+    result.markets = {}
     result.manager = await this.manager.getUserState(addr)
     const storageAddress = await this.manager.getStorageAddress(addr)
 
     for (const symbol of this.activeOrderedSymbols) {
-      result[symbol] = await this.markets[symbol].getStorageState(storageAddress)
+      result.markets[symbol] = await this.markets[symbol].getStorageState(storageAddress)
     }
+    result.storageAddress = storageAddress
     return result
   }
 
